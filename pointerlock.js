@@ -4,105 +4,103 @@
 
 window.onload = function () {
 
-	// Does the user's browser support pointerlock
-	var havePointerLock = 'pointerLockElement' in document ||
-	    'mozPointerLockElement' in document ||
-	    'webkitPointerLockElement' in document;
+	// Make all the pointer lock things work
+	pointerLock._init_();
 
-	if (!havePointerLock) {  // For browsers that don't support pointerlock
+}  // end window on load
 
-		alert("Sorry, your browser does not support pointer lock.");
+pointerLock = {
 
-	} else {  // This is the bulk of the action
+	/* ===================================
+	   Setup
+	   ==================================== */
 
-		var lockElement = document.body;
+	// Element the pointer lock is assigned to
+	lockElement: null,
+	// Should toggling pointer lock (whatever key is assigned)
+	// lock the pointer?
+	shouldLock: true,
 
-		// Give a name to the automatic pointerlock functions
-		// Ask the browser to lock the pointer
-		lockElement.requestPointerLock = lockElement.requestPointerLock ||
-			     lockElement.mozRequestPointerLock ||
-			     lockElement.webkitRequestPointerLock;
+	_init_: function () {
 
-		// Ask the browser to release/unlock the pointer
-		document.exitPointerLock = document.exitPointerLock ||
-				   document.mozExitPointerLock ||
-				   document.webkitExitPointerLock;
+		// Does the user's browser support pointerlock
+		var havePointerLock = 'pointerLockElement' in document ||
+		    'mozPointerLockElement' in document ||
+		    'webkitPointerLockElement' in document;
 
-		// Hook pointer lock state change events (automatically assigned strings)
-		document.addEventListener('pointerlockchange', testPointerLock, false);
-		document.addEventListener('mozpointerlockchange', testPointerLock, false);
-		document.addEventListener('webkitpointerlockchange', testPointerLock, false);
+		if (!havePointerLock) {  // For browsers that don't support pointerlock
 
-		document.addEventListener( 'pointerlockerror', pointerLockError, false );
-		document.addEventListener( 'mozpointerlockerror', pointerLockError, false );
-		document.addEventListener( 'webkitpointerlockerror', pointerLockError, false );
+			alert("Sorry, your browser does not support pointer lock.");
 
-		// Should the esc key lock the pointer bool
-		var escShouldLockPointer = true;
+		} else {  // This is the bulk of the action
 
-		document.addEventListener('keyup', function (event) {
+			this.lockElement = document.body;
+			lockElement = this.lockElement;
 
-			var keyCode = ('which' in event) ? event.which : event.keyCode;
+			// Give a name to the automatic pointerlock functions
+			// Ask the browser to lock the pointer
+			lockElement.requestPointerLock = lockElement.requestPointerLock ||
+				     lockElement.mozRequestPointerLock ||
+				     lockElement.webkitRequestPointerLock;
 
-			if (keyCode === 27) {
+			// Ask the browser to release/unlock the pointer
+			document.exitPointerLock = document.exitPointerLock ||
+					   document.mozExitPointerLock ||
+					   document.webkitExitPointerLock;
 
-				escShouldLockPointer = toggleLock(escShouldLockPointer);
+			// Hook pointer lock state change events (automatically assigned strings)
+			document.addEventListener('pointerlockchange', this.changePointerLock, false);
+			document.addEventListener('mozpointerlockchange', this.changePointerLock, false);
+			document.addEventListener('webkitpointerlockchange', this.changePointerLock, false);
 
-			}
+			document.addEventListener( 'pointerlockerror', this.pointerLockError, false );
+			document.addEventListener( 'mozpointerlockerror', this.pointerLockError, false );
+			document.addEventListener( 'webkitpointerlockerror', this.pointerLockError, false );
 
-		}, false);  // end keydown event listener
+			// THIS WILL BE IN THE CONTROLS SCRIPT
 
-		testPointerLock();
-		
-	}
+			document.addEventListener('keyup', function (event) {
+
+				var keyCode = ('which' in event) ? event.which : event.keyCode;
+
+				if (keyCode === 27) { pointerLock.toggleLock(); }
+
+			}, false);  // end keydown event listener
+			
+		}
+
+	},  // end _init_()
+
 
 	/* ===================================
 	   Functions
 	   ==================================== */
-	function testPointerLock () {
-		console.log("*** In testPointerLock() ***");
-		// Check for locked pointer
-		if (document.pointerLockElement === lockElement ||
-			document.mozPointerLockElement === lockElement ||
-			document.webkitPointerLockElement === lockElement) {  // Pointer is locked
-
-			console.log("Pointer is locked");
-
-		} else {  // Pointer is unlocked
-
-			console.log("Pointer is FREE!");
-
-		}
-	}  // end testPointerLock()
 
 	// Should changing the DOM be here? Probably not, though something should
-	function changePointerLock () {
-	}  // end changePointerLock
+	changePointerLock: function () {
+	},  // end changePointerLock()
 
-	function toggleLock (escShouldLockPointer) {
+	toggleLock: function () {
 
-		if (escShouldLockPointer) {
+		var shouldLock = this.shouldLock;
 
-			lockElement.requestPointerLock();
-			escShouldLockPointer = false;
+		if (shouldLock) {
 
-			return escShouldLockPointer;
+			this.lockElement.requestPointerLock();
+			this.shouldLock = false;
 
 		} else {
 			document.exitPointerLock();
-			escShouldLockPointer = true;
-
-			return escShouldLockPointer;
+			this.shouldLock = true;
 
 		}
-	}  // end toggleLock()
+	},  // end toggleLock()
 
-	function pointerLockError () {
+	pointerLockError: function () {
 
 		console.log("Pointer Lock Error");
 		// TODO: Check out https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#dfn-target
 		// for better error messages.
 
-	}  // end pointerLockError()
-
-}  // end window on load
+	},  // end pointerLockError()
+}
