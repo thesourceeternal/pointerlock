@@ -13,6 +13,7 @@ window.onload = function () {
 	} else {  // This is the bulk of the action
 
 		var lockElement = document.body;
+		var childElement = document.getElementById("lockDisplay");
 
 		// Give a name to the automatic pointerlock functions
 		lockElement.requestPointerLock = lockElement.requestPointerLock ||
@@ -34,7 +35,7 @@ window.onload = function () {
 		var oldKeyCode = null;
 		var keyHeldDown = false;
 
-		document.addEventListener('keydown', function (event) {
+		document.body.addEventListener('keydown', function (event) {
 
 			var keyCode = ('which' in event) ? event.which : event.keyCode;
 
@@ -55,7 +56,7 @@ window.onload = function () {
 
 		});  // end keydown event listener
 
-		document.addEventListener('keyup', function (event) {
+		document.body.addEventListener('keyup', function (event) {
 			keyHeldDown = false;
 		});
 
