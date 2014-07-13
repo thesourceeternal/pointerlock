@@ -3,7 +3,7 @@
 // Make unitTests global so they can be called in the console
 var unitTests = null;
 
-window.onload = function () {
+window.addEventListener('load', function () {
 
 	/* ===================================
 	   Call all tests
@@ -25,11 +25,11 @@ window.onload = function () {
 
 			if (test1 !== test2) {
 
-				console.log("Pointer lock toggle test succeeded, pointer lock toggled");
+				console.log("Test passed, pointer lock toggled");
 
 			} else {
 
-				console.log("Ponter lock toggle test failed, pointer lock not toggled");
+				console.log("Test failed, pointer lock not toggled");
 
 			}  // end if test1 !== test2
 
@@ -62,4 +62,4 @@ window.onload = function () {
 		}
 	};  // end testToggleLock()
 
-};
+});

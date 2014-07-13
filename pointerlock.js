@@ -2,12 +2,12 @@
  http://www.html5rocks.com/en/tutorials/pointerlock/intro/
 */
 
-window.onload = function () {
+window.addEventListener('load', function () {
 
 	// Make all the pointer lock things work
 	pointerLock._init_();
 
-}  // end window on load
+});  // end window on load
 
 pointerLock = {
 
@@ -82,9 +82,7 @@ pointerLock = {
 
 	toggleLock: function () {
 
-		var shouldLock = this.shouldLock;
-
-		if (shouldLock) {
+		if (this.shouldLock) {
 
 			this.lockElement.requestPointerLock();
 			this.shouldLock = false;
@@ -98,9 +96,10 @@ pointerLock = {
 
 	pointerLockError: function () {
 
-		console.log("Pointer Lock Error");
+		console.log("Pointer lock error");
 		// TODO: Check out https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#dfn-target
 		// for better error messages.
 
 	},  // end pointerLockError()
-}
+
+};
