@@ -45,7 +45,9 @@ window.onload = function () {
 				if (keyCode === 27) {
 					console.log(keyCode);
 
-					changePointerLock();
+					toggleEsc();
+					event.stopPropagation();
+					event.preventDefault();
 				}
 
 				keyHeldDown = true;
@@ -84,7 +86,31 @@ window.onload = function () {
 	}
 
 	function changePointerLock () {
-		// Check for locked pointer
+		// // Check for locked pointer
+		// if (document.pointerLockElement === lockElement ||
+		// 	document.mozPointerLockElement === lockElement ||
+		// 	document.webkitPointerLockElement === lockElement) {  // Pointer is locked
+
+		// 	lockElement.exitPointerLock();
+
+		// 	// // Get mousemoves in pointerlock way
+		// 	// document.addEventListener("mousemove", this.moveCallback, false);
+
+		// } else {  // Pointer is unlocked
+
+		// 	lockElement.requestPointerLock();
+			
+		// 	// // Disable the mousemove listener
+		// 	// document.removeEventListener("mousemove", this.moveCallback, false);
+			
+		// 	// // I assume this means "do stuff"
+		// 	// this.unlockHook(this.lockElement);
+		// }
+
+	}
+
+	function toggleEsc () {
+	// Check for locked pointer
 		if (document.pointerLockElement === lockElement ||
 			document.mozPointerLockElement === lockElement ||
 			document.webkitPointerLockElement === lockElement) {  // Pointer is locked
