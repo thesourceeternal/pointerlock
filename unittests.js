@@ -29,48 +29,75 @@ window.addEventListener('load', function () {
 
 			var test1, test2;
 
-			// http://www.html5rocks.com/en/tutorials/es6/promises/
-			var promiseTest1 = new Promise(function(resolve, reject) {
-
+			var runToggle1 = function () {
+				console.log("in runToggle1");
 				pointerLock.toggleLock();
 				test1 = toggleResult();
+				return true;
+			}
 
-				if (true) {
-					resolve("Stuff worked!");
-				} else {
-					reject(Error("It broke"));
-				}
-
-				return delay(500);
-			});
-
-			var promiseTest2 = new Promise(function(resolve, reject) {
-
+			var runToggle2 = function () {
+				console.log("in runToggle2");
 				pointerLock.toggleLock();
 				test2 = toggleResult();
+				return true;
+			}
 
-				if (true) {
-					resolve("Stuff worked!");
-				} else {
-					reject(Error("It broke"));
-				}
-
-				return delay(500);
-			});
-
-			promiseTest1.then(promiseTest2).then(function () {
+			runToggle1().then(runToggle2()).then(function () {
+				console.log("in comparison");
 
 				if (test1 !== test2) {
-
 					console.log("Test passed, pointer lock toggled");
 
 				} else {
-
 					console.log("Test failed, pointer lock not toggled");
 
 				}  // end if test1 !== test2
 
-			})
+			});
+
+			// http://www.html5rocks.com/en/tutorials/es6/promises/
+			// var promiseTest1 = new Promise(function(resolve, reject) {
+
+			// 	pointerLock.toggleLock();
+			// 	test1 = toggleResult();
+
+			// 	if (true) {
+			// 		resolve("Stuff worked!");
+			// 	} else {
+			// 		reject(Error("It broke"));
+			// 	}
+
+			// 	return delay(500);
+			// });
+
+			// var promiseTest2 = new Promise(function(resolve, reject) {
+
+			// 	pointerLock.toggleLock();
+			// 	test2 = toggleResult();
+
+			// 	if (true) {
+			// 		resolve("Stuff worked!");
+			// 	} else {
+			// 		reject(Error("It broke"));
+			// 	}
+
+			// 	return delay(500);
+			// });
+
+			// promiseTest1.then(promiseTest2).then(function () {
+
+			// 	if (test1 !== test2) {
+
+			// 		console.log("Test passed, pointer lock toggled");
+
+			// 	} else {
+
+			// 		console.log("Test failed, pointer lock not toggled");
+
+			// 	}  // end if test1 !== test2
+
+			// })
 
 			// pointerLock.toggleLock();
 			// var test1 = toggleResult();
